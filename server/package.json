@@ -1,19 +1,29 @@
 {
-  "name": "server",
+  "name": "sf-form-api",
+  "version": "1.0.0",
+  "description": "A Simple Project of mine",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:setup": "tsx scripts/db.ts",
+    "db:reset": "prisma db push --force-reset && pnpm db:setup"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
+    "@prisma/client": "^6.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "helmet": "^8.1.0",
-    "hono": "^4.7.5"
+    "hono": "^4.7.5",
+    "mongodb": "^6.15.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/node": "^20.11.17",
+    "prisma": "^6.5.0",
     "tsx": "^4.7.1"
   }
 }
