@@ -20,7 +20,7 @@ export class AuthService {
         });
 
         if (userExists) {
-            throw new AppError('User already exists with this email', 409);
+            throw new AppError('User already exists with this email');
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -52,13 +52,13 @@ export class AuthService {
         });
 
         if (!user) {
-            throw new AppError('Invalid email or password', 401);
+            throw new AppError('Invalid email or password');
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            throw new AppError('Invalid email or password', 401);
+            throw new AppError('Invalid email or password');
         }
 
         const token = await this.generateToken(user.id);

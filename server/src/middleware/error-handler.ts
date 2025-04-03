@@ -1,59 +1,41 @@
 import type { Context, MiddlewareHandler } from 'hono';
-import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { ZodError } from 'zod';
+import { createErrorResponse } from '../utils/response.js';
+import type { HTTPException } from 'hono/http-exception';
 
 export class AppError extends Error {
     status: number;
+    name: string = 'AppError';
 
-    constructor(message: string, status = 500) {
+    constructor(message: string, status = 400) {
         super(message);
-        this.name = this.constructor.name;
+        this.name = 'AppError';
         this.status = status;
         Object.setPrototypeOf(this, AppError.prototype);
     }
 }
+export const errorHandler = () => {
+    return (err: Error | HTTPException, c: Context) => {
+        console.error('Global error handler caught:', err);
 
-export const errorHandler = (): MiddlewareHandler => {
-    return async (c: Context, next) => {
-        try {
-            await next();
-        } catch (error) {
-            console.error('Error caught in error handler:', error);
+        // Handle Zod validation errors
+        if (err instanceof ZodError) {
+            const formattedErrors = err.issues.map((issue) => ({
+                path: issue.path.join('.'),
+                message: issue.message,
+            }));
 
-            if (error instanceof ZodError) {
-                const formatError = error.errors.map((err) => ({
-                    path: err.path.join('.'),
-                    message: err.message,
-                }));
-
-                return c.json(
-                    {
-                        status: 400,
-                        messsage: 'Validation error',
-                        errors: formatError,
-                    },
-                    400,
-                );
-            }
-
-            if (error instanceof AppError) {
-                return c.json(
-                    {
-                        status: error.status,
-                        message: error.message,
-                    },
-                    error.status as ContentfulStatusCode,
-                );
-            }
-
-            // For other types of errors
-            return c.json(
-                {
-                    status: 500,
-                    message: 'Internal Server Error',
-                },
-                500,
-            );
+            return c.json(createErrorResponse('Validation error', formattedErrors), 200);
         }
+
+        // Handle our custom AppError
+        if (err instanceof AppError) {
+            console.log('AppError detected:', err.message);
+            return c.json(createErrorResponse(err.message), 200);
+        }
+
+        // For any other errors
+        console.error('Unexpected error:', err);
+        return c.json(createErrorResponse('Internal Server Error'), 500);
     };
 };

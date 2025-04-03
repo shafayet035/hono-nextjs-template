@@ -8,13 +8,16 @@ export class AuthController {
 
     constructor() {
         this.authService = new AuthService();
+
+        this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
     }
 
     async register(c: Context) {
         try {
             const { email, password, name } = c.req.valid('json' as never);
-
-            console.log(email, password, name);
 
             const user = await this.authService.register(email, password, name);
             return c.json(createSuccessResponse({ user }), 201);
@@ -37,7 +40,6 @@ export class AuthController {
     }
 
     logout = async (c: Context) => {
-        // Clear JWT cookie
         c.header('Set-Cookie', 'token=; HttpOnly; Path=/; Max-Age=0; SameSite=Strict');
 
         return c.json(createSuccessResponse({ message: 'Logged out successfully' }));
