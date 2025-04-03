@@ -33,7 +33,7 @@ export class AuthController {
 
             c.header('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24 * 7}`);
 
-            return c.json(createSuccessResponse({ user }), 200);
+            return c.json(createSuccessResponse({ user, token }), 200);
         } catch (error) {
             throw error;
         }
