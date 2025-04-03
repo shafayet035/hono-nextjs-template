@@ -5,12 +5,20 @@ import { errorHandler } from './middleware/error-handler.js';
 import { indexRouter } from './routes/index.js';
 import { apiRouter } from './routes/api.js';
 import { authRouter } from './routes/auth.js';
+import { rateLimit } from './middleware/rate-limit.js';
 
 const app = new Hono();
 
 app.use('*', logger());
 app.onError(errorHandler());
 app.use('*', securityHeaders());
+app.use(
+    '*',
+    rateLimit({
+        windowMs: 60 * 1000,
+        max: 30,
+    }),
+);
 
 app.route('/', indexRouter);
 app.route('/v1/api', apiRouter);
