@@ -10,7 +10,7 @@
     "db:studio": "prisma studio",
     "db:setup": "tsx scripts/db.ts",
     "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma db push --force-reset && pnpm db:setup"
+    "db:reset": "prisma db push --force-reset"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
