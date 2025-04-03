@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { logger } from './middleware/logger.js';
-import { securityHeaders } from './middleware/security.js';
+import { corsMiddleware, securityHeaders } from './middleware/security.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { indexRouter } from './routes/index.js';
 import { apiRouter } from './routes/api.js';
@@ -11,12 +11,13 @@ const app = new Hono();
 
 app.use('*', logger());
 app.onError(errorHandler());
+app.use(corsMiddleware());
 app.use('*', securityHeaders());
+
 app.use(
     '*',
-    rateLimit({
-        windowMs: 60 * 1000,
-        max: 30,
+    corsMiddleware({
+        origin: ['http://localhost:3001'],
     }),
 );
 

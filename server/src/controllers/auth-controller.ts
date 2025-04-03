@@ -19,8 +19,12 @@ export class AuthController {
         try {
             const { email, password, name } = c.req.valid('json' as never);
 
-            const user = await this.authService.register(email, password, name);
-            return c.json(createSuccessResponse({ user }), 201);
+            await this.authService.register(email, password, name);
+            const { user, token } = await this.authService.login(email, password);
+
+            c.header('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24 * 7}`);
+
+            return c.json(createSuccessResponse({ user, token }), 200);
         } catch (error) {
             throw error;
         }
