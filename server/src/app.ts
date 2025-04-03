@@ -4,7 +4,7 @@ import { securityHeaders } from './middleware/security.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { indexRouter } from './routes/index.js';
 import { apiRouter } from './routes/api.js';
-import { usersRouter } from './routes/users.js';
+import { authRouter } from './routes/auth.js';
 
 // Create the main Hono app
 const app = new Hono();
@@ -17,14 +17,17 @@ app.use('*', errorHandler());
 // Register routes
 app.route('/', indexRouter);
 app.route('/v1/api', apiRouter);
-app.route('/v1/users', usersRouter);
+app.route('/v1/auth', authRouter);
 
 // 404 handler
 app.notFound((c) => {
-  return c.json({
-    status: 404,
-    message: 'Not Found',
-  }, 404);
+    return c.json(
+        {
+            status: 404,
+            message: 'Not Found',
+        },
+        404,
+    );
 });
 
 export { app };
