@@ -13,6 +13,7 @@ app.use('*', logger());
 app.onError(errorHandler());
 app.use(corsMiddleware());
 app.use('*', securityHeaders());
+app.use('*', rateLimit());
 
 app.use(
     '*',

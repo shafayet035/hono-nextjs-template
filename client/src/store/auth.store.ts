@@ -42,17 +42,18 @@ export const useAuthStore = create<AuthState>()(
                             set({
                                 user: data.data?.user,
                                 isAuthenticated: true,
-                                isLoading: false,
                             });
                         } else {
-                            toast('Something Went Wrong');
+                            set({ error: data.error?.message });
+                            toast(data.error?.message);
                         }
                     } catch (error) {
                         set({
                             error: error instanceof Error ? error.message : 'Login failed',
-                            isLoading: false,
                         });
                         throw error;
+                    } finally {
+                        set({ isLoading: false });
                     }
                 },
 
@@ -68,15 +69,18 @@ export const useAuthStore = create<AuthState>()(
                             set({
                                 user: data.data?.user,
                                 isAuthenticated: true,
-                                isLoading: false,
                             });
+                        } else {
+                            set({ error: data.error?.message });
+                            toast(data.error?.message);
                         }
                     } catch (error) {
                         set({
                             error: error instanceof Error ? error.message : 'Registration failed',
-                            isLoading: false,
                         });
                         throw error;
+                    } finally {
+                        set({ isLoading: false });
                     }
                 },
 
@@ -89,6 +93,7 @@ export const useAuthStore = create<AuthState>()(
                             isAuthenticated: false,
                             isLoading: false,
                         });
+                        window.location.href = '/login';
                     } catch (error) {
                         set({
                             error: error instanceof Error ? error.message : 'Logout failed',
