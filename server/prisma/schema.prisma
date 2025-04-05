@@ -16,8 +16,6 @@ model User {
   password        String
   role            Role       @default(USER)
   profile         Profile?
-  forms           Form[]
-  responses       Response[]
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
@@ -36,82 +34,8 @@ model Profile {
   @@map("profiles")
 }
 
-model Form {
-  id          String     @id @default(uuid())
-  title       String
-  description String?
-  isPublic    Boolean    @default(false)
-  fields      Field[]
-  responses   Response[]
-  ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-
-  @@map("forms")
-}
-
-model Field {
-  id            String          @id @default(uuid())
-  label         String
-  type          FieldType
-  required      Boolean         @default(false)
-  options       Json?           // For multiple choice, checkbox options
-  placeholder   String?
-  helpText      String?
-  formId        String
-  form          Form            @relation(fields: [formId], references: [id], onDelete: Cascade)
-  fieldResponses FieldResponse[]
-  order         Int
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-
-  @@map("fields")
-}
-
-model Response {
-  id             String          @id @default(uuid())
-  formId         String
-  form           Form            @relation(fields: [formId], references: [id], onDelete: Cascade)
-  responderId    String?
-  responder      User?           @relation(fields: [responderId], references: [id])
-  fieldResponses FieldResponse[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-
-  @@map("responses")
-}
-
-model FieldResponse {
-  id          String   @id @default(uuid())
-  value       String   // The response value
-  fieldId     String
-  field       Field    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
-  responseId  String
-  response    Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("field_responses")
-}
-
 enum Role {
   USER
   ADMIN
 }
 
-enum FieldType {
-  SHORT_TEXT
-  LONG_TEXT
-  NUMBER
-  EMAIL
-  PHONE
-  DATE
-  TIME
-  MULTIPLE_CHOICE
-  CHECKBOX
-  DROPDOWN
-  FILE_UPLOAD
-  RATING
-  URL
-}
