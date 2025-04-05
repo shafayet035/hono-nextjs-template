@@ -1,34 +1,33 @@
 {
-  "name": "sf-form-api",
-  "version": "1.0.0",
-  "description": "A Simple Project of mine",
-  "type": "module",
-  "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "db:setup": "tsx scripts/db.ts",
-    "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma db push --force-reset"
-  },
-  "dependencies": {
-    "@hono/node-server": "^1.14.0",
-    "@hono/zod-validator": "^0.4.3",
-    "@prisma/client": "^6.5.0",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "helmet": "^8.1.0",
-    "hono": "^4.7.5",
-    "zod": "^3.24.2"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/cors": "^2.8.17",
-    "@types/node": "^20.11.17",
-    "prisma": "^6.5.0",
-    "tsx": "^4.7.1"
-  }
+    "name": "sf-form-api",
+    "version": "1.0.0",
+    "description": "A Simple Project of mine",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push",
+        "db:studio": "prisma studio",
+        "db:migrate": "prisma migrate dev",
+        "db:reset": "prisma db push --force-reset"
+    },
+    "dependencies": {
+        "@hono/node-server": "^1.14.0",
+        "@hono/zod-validator": "^0.4.3",
+        "@prisma/client": "^6.5.0",
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^3.0.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "helmet": "^8.1.0",
+        "hono": "^4.7.5",
+        "zod": "^3.24.2"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/cors": "^2.8.17",
+        "@types/node": "^20.11.17",
+        "prisma": "^6.5.0",
+        "tsx": "^4.7.1"
+    }
 }

@@ -1,14 +1,20 @@
-# SF-Form API
+# SF Full Stack Template
 
-A Hono-based Node.js API with PostgreSQL database for SF-Form application.
+A Hono-based Node.js API with PostgreSQL database for SF-Form application and Next.js as a Frontend
 
 ## Prerequisites
 
-- Node.js 18+ 
-- pnpm
-- Docker and Docker Compose (for PostgreSQL)
+-   Node.js 18+
+-   pnpm
+-   Docker and Docker Compose (for PostgreSQL)
 
-## Getting Started
+## Getting Started with Backend
+
+### Clone the Repository
+
+```bash
+cd server
+```
 
 ### Install Dependencies
 
@@ -46,12 +52,6 @@ Run migrations:
 pnpm db:migrate
 ```
 
-Seed the database with initial data:
-
-```bash
-pnpm db:setup
-```
-
 ### Start Development Server
 
 ```bash
@@ -62,45 +62,57 @@ The server will start at `http://localhost:3000` by default (or the port specifi
 
 ## Database Commands
 
-- Generate Prisma client: `pnpm db:generate`
-- Push schema changes to database: `pnpm db:push`
-- Run migrations: `pnpm db:migrate`
-- Launch Prisma Studio: `pnpm db:studio`
-- Setup initial data: `pnpm db:setup`
-- Reset database: `pnpm db:reset`
+-   Generate Prisma client: `pnpm db:generate`
+-   Push schema changes to database: `pnpm db:push`
+-   Run migrations: `pnpm db:migrate`
+-   Launch Prisma Studio: `pnpm db:studio`
+-   Setup initial data: `pnpm db:setup`
+-   Reset database: `pnpm db:reset`
 
 ## API Endpoints
 
-- `GET /` - Welcome message
-- `GET /health` - Health check
-- `GET /v1/api` - API information
-- `GET /v1/api/status` - API status
-- `GET /v1/users` - Get all users
-- `GET /v1/users/:id` - Get user by ID
-- `POST /v1/users` - Create a new user
-- `PUT /v1/users/:id` - Update user
-- `DELETE /v1/users/:id` - Delete user
+-   `GET /` - Welcome message
+-   `GET /health` - Health check
+-   `GET /v1/api` - API information
+-   `GET /v1/api/status` - API status
 
-## Default Admin User
-
-After running `pnpm db:setup`, a default admin user will be created:
-
-- Email: admin@example.com
-- Password: adminPassword123
+assword: adminPassword123
 
 ## Project Structure
 
-- `src/` - Source code
-  - `app.ts` - Main application setup
-  - `index.ts` - Server entry point
-  - `config/` - Configuration files
-  - `controllers/` - Request handlers
-  - `middleware/` - Custom middleware
-  - `routes/` - API routes
-  - `utils/` - Utility functions
-- `prisma/` - Prisma ORM files
-  - `schema.prisma` - Database schema
-  - `client.ts` - Prisma client export
-  - `init.ts` - Database connection utilities
-- `scripts/` - Helper scripts
-  - `db.ts` - Database setup script
+-   `src/` - Source code
+    -   `app.ts` - Main application setup
+    -   `index.ts` - Server entry point
+    -   `config/` - Configuration files
+    -   `controllers/` - Request handlers
+    -   `middleware/` - Custom middleware
+    -   `routes/` - API routes
+    -   `utils/` - Utility functions
+-   `prisma/` - Prisma ORM files
+    -   `schema.prisma` - Database schema
+    -   `client.ts` - Prisma client export
+    -   `init.ts` - Database connection utilities
+-   `scripts/` - Helper scripts
+    -   `db.ts` - Database setup script
+
+## Frontend Setup
+
+### Clone the Repository
+
+```bash
+cd client
+```
+
+### Install Dependencies
+
+```bash
+pnpm install
+```
+
+### Start Development Server
+
+```bash
+pnpm dev
+```
+
+The server will start at `http://localhost:3001` by default (or the port specified in your `.env` file).
